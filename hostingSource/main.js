@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var app_1 = require("firebase/app");
 var analytics_1 = require("firebase/analytics");
 var functions_1 = require("firebase/functions");
+var performance_1 = require("firebase/performance");
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
 var firebaseConfig = {
@@ -27,6 +28,9 @@ var actuallyWriteToBackEnd = (0, functions_1.httpsCallable)(functions, 'actually
 //const database = getDatabase(app);
 var analytics = (0, analytics_1.getAnalytics)(app);
 (0, analytics_1.logEvent)(analytics, 'user acsessed page');
+var perf = (0, performance_1.getPerformance)(app);
+perf.instrumentationEnabled = true;
+perf.dataCollectionEnabled = true;
 (_a = document.getElementById("deviceIDInputButton")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", deviceIDUpdater);
 //@ts-ignore
 function deviceIDUpdater() {

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import { getFunctions, httpsCallable } from "firebase/functions";
-
+import { getPerformance } from "firebase/performance";
 interface dataToWriteIn{
     deviceID: string,
     platform: string,
@@ -36,7 +36,9 @@ const actuallyWriteToBackEnd = httpsCallable(functions, 'actuallyWriteToBackEnd'
 
 const analytics = getAnalytics(app);
 logEvent(analytics, 'user acsessed page');
-
+const perf = getPerformance(app);
+perf.instrumentationEnabled = true;
+perf.dataCollectionEnabled = true;
 document.getElementById("deviceIDInputButton")?.addEventListener("click",deviceIDUpdater);
 //@ts-ignore
 

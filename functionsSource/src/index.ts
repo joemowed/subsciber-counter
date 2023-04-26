@@ -87,7 +87,7 @@ return {data: false}})
                     fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${document.data().channelID}&key=AIzaSyDOR6Z8CGyRk4RhetVPCNTtSIQVEPKJ0cA`).then((response)=> response.json()).then((jsonResponse)=>{
                        var subs =  jsonResponse.items[0].statistics.subscriberCount 
                       //@ts-ignore
-                       counterData.doc(document.id).update({'data':subs}).then(()=>{functions.logger.info(`automatically updated ${jsonResponse.items[0].id} to ${subs} subscribers`)}).catch((error)=>{functions.logger.info(error)})
+                       counterData.doc(document.id).update({'data':subs}).then(()=>{functions.logger.info(`automatically updated device ${document.id} with channel ${jsonResponse.items[0].id} to ${subs} subscribers`)}).catch((error)=>{functions.logger.info(document.data(), error)})
                 })
             })
             
@@ -98,9 +98,13 @@ return {data: false}})
     exports.useMultipleWildcards = functions.firestore
     .document('backEnd/{deviceID}')
     .onWrite((change, context) => {//@ts-ignore
-        fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${change.after.data.channelID}&key=AIzaSyDOR6Z8CGyRk4RhetVPCNTtSIQVEPKJ0cA`).then((response)=> response.json()).then((jsonResponse)=>{
-                       var subs =  jsonResponse.items[0].statistics.subscriberCount //@ts-ignore
-                       counterData.doc(change.after.data.channelID).update({'data':subs}).then(()=>{functions.logger.info(`automatically updated ${change.after.data.channelID} to ${subs} subscribers`)}).catch((error)=>{functions.logger.info(error)})
+        backEnd.doc(context.params.deviceID).get().then((snap)=>{ 
+       //@ts-ignore
+            fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${snap.data().channelID}&key=AIzaSyDOR6Z8CGyRk4RhetVPCNTtSIQVEPKJ0cA`).then((response)=> response.json()).then((jsonResponse)=>{
+                var subs =  jsonResponse.items[0].statistics.subscriberCount //@ts-ignore
+                counterData.doc(snap.id).update({'data':subs}).then(()=>{functions.logger.info(`New device ${snap.id} tracking ${snap.data().channelID} as ${subs} subscribers`)}).catch((error)=>{functions.logger.info(error); "update subs on write failed"})
+        })
+        
       // If we set `/users/marie/incoming_messages/134` to {body: "Hello"} then
       // context.params.userId == "marie";
       // context.params.messageCollectionId == "incoming_messages";
