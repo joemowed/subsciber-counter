@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noImplicitReturns": false,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES6",
+    "forceConsistentCasingInFileNames": true,
+  },
+  "compileOnSave": true,
+  "include": [
+    
+    "hostingSource"
+  ]
+}

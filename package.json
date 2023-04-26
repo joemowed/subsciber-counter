@@ -1,0 +1,31 @@
+{
+  "name": "jgmiistudios",
+  "version": "1.0.0",
+  "description": "",
+  "main": "hostingSource/main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildMain" : "webpack --mode=development -w",
+    "tscWatchMain": "tsc hostingSource/main.ts --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joemowed/jgmiistudios.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joemowed/jgmiistudios/issues"
+  },
+  "homepage": "https://github.com/joemowed/jgmiistudios#readme",
+  "dependencies": {
+    "firebase": "^9.20.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.2"
+  }
+}
